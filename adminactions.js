@@ -19,7 +19,7 @@ exports.index = function index(req) {
 exports.edit = {}
 exports.edit.GET = function edit(req, id) {
     // output the model data for displaying
-    var post = model.Post.getById(id);
+    var post = model.Post.get(id);
     var message = req.session.data.message;
     req.session.data.message = "";
     return response.skinResponse('skins/edit.html', {
@@ -28,7 +28,7 @@ exports.edit.GET = function edit(req, id) {
     });
 };
 exports.edit.POST = function edit(req, id) {
-    var post = model.Post.getById(id);
+    var post = model.Post.get(id);
     for each (var key in ['text', 'lead', 'title']) {
         post[key] = req.params[key];
     }

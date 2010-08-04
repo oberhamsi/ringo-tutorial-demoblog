@@ -9,7 +9,7 @@ exports.index = function index(req) {
 };
 
 exports.post = function post(req, id) {
-    var post = model.Post.getById(id);
+    var post = model.Post.get(id);
     return response.skinResponse('skins/post.html', {
         post: post,
     });
