@@ -1,0 +1,17 @@
+<% extends ./base.html %>
+
+<% subskin content %>
+<% for post in <% posts %> render 'post' %>
+
+<% subskin 'post' %>
+
+    <h2><% post.title %></h2>
+    <p>
+        <% post.createtime | dateFormat "dd.MM.yyyy" %>, <% post.author %>
+    </p>
+    <div>
+      <p>
+        <% post.lead %>
+      </p>
+      <a href="<% href post<% post._id %> %>"> ..read more </a>
+    </div>

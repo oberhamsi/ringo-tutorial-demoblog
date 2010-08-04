@@ -1,0 +1,14 @@
+<% extends ./base.html %>
+
+<% subskin content %>
+<h1> Demoblog Admin Interface </h1>
+<a href="./create"> new post </a>
+<ul>
+<% for post in <% posts %> render 'post' %>
+</ul>
+
+<% subskin 'post' %>
+<li>
+    <a href="./edit/<%post._id%>"><% post.title %></a>
+    <% post.createtime | dateFormat "dd.MM.yyyy" %>, <% post.author %>
+</li>

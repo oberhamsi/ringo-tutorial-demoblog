@@ -1,0 +1,12 @@
+<% extends ./base.html %>
+
+<% subskin content %>
+<h1><% post.title %></h1>
+<p>
+  <% post.createtime | dateFormat "dd.MM.yyyy" %>, <% post.author %>
+</p>
+<div>
+   <p><% post.lead %></p>
+   <p><% post.text %></p>
+</div>
+<a href="<% href / %>"> back to front </a>
