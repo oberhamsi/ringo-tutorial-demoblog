@@ -1,5 +1,5 @@
 var config = require('./config');
-var dates = require('ringo/utils/date');
+var dates = require('ringo/utils/dates');
 
 var Post = exports.Post = config.store.defineEntity('Post');
 Post.prototype.toString = function() {
