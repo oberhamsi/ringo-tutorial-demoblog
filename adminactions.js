@@ -1,4 +1,4 @@
-var response = require('ringo/webapp/response');
+var {Response} = require('ringo/webapp/response');
 var model = require('./model');
 var log = require('ringo/logging').getLogger(module.id);
 var base64 = require('ringo/base64');
@@ -11,7 +11,7 @@ function getAuthUser(req) {
 
 exports.index = function index(req) {
     var posts = model.Post.query().select();
-    return response.skinResponse('skins/adminindex.html', {
+    return Response.skin('skins/adminindex.html', {
         posts: posts,
     });
 };
@@ -22,7 +22,7 @@ exports.edit.GET = function edit(req, id) {
     var post = model.Post.get(id);
     var message = req.session.data.message;
     req.session.data.message = "";
-    return response.skinResponse('skins/edit.html', {
+    return Response.skin('skins/edit.html', {
         post: post,
         message: message,
     });
@@ -35,12 +35,12 @@ exports.edit.POST = function edit(req, id) {
     post.save();
     req.session.data.message = "Successfully saved Post " + id;
     log.info('{} updated by {}', post, getAuthUser(req));
-    return response.redirectResponse(req.path);
+    return Response.redirect(req.path);
 };
 
 exports.create = {};
 exports.create.GET = function create(req) {
-    return response.skinResponse('skins/edit.html');
+    return Response.skin('skins/edit.html');
 };
 
 exports.create.POST = function create(req) {
@@ -54,5 +54,5 @@ exports.create.POST = function create(req) {
     post.save();
     log.info('{} created by {}', post, user);
     // once the Post is stored, redirect to it's edit page
-    return response.redirectResponse('./edit/' + post._id);
+    return Response.redirect('./edit/' + post._id);
 };
