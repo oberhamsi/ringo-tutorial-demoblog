@@ -1,26 +1,28 @@
 exports.httpConfig = {
-    staticDir: 'static',
     port: '8080',
 };
 
 exports.urls = [
-    ['/', './actions'],
-    ['/admin/', './adminactions']
-];
-
-exports.middleware = [
-    'ringo/middleware/responselog',
-    'ringo/middleware/error',
-    'ringo/middleware/notfound',
-    'ringo/middleware/basicauth'
+    ['/', require('./actions')],
+    ['/admin/', require('./adminactions')]
 ];
 
 // middleware/basicauth
-exports.auth = {
+var authConfig = {
     '/admin/': {
         blogadmin: "e5e9fa1ba31ecd1ae84f75caaa474f3a663f05f4"
     }
 };
+
+exports.middleware = [
+    require('ringo/middleware/gzip').middleware,
+    require('ringo/middleware/etag').middleware,
+    require('ringo/middleware/static').middleware(module.resolve('public')),
+    require('ringo/middleware/responselog').middleware,
+    require('ringo/middleware/error').middleware,
+    require('ringo/middleware/notfound').middleware,
+    require('ringo/middleware/basicauth').middleware(authConfig),
+];
 
 exports.app = require('ringo/webapp').handleRequest;
 
@@ -28,10 +30,6 @@ exports.macros = [
     'ringo/skin/macros',
     'ringo/skin/filters',
 ];
-
-var filestore = require('ringo/storage/filestore');
-var storePath = './db';
-exports.store = new filestore.Store(storePath);
 
 exports.charset = 'UTF-8';
 exports.contentType = 'text/html';
